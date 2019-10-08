@@ -19,13 +19,13 @@ const originalGrid = generateNxN(5);
 
 const colors = [...document.querySelectorAll('.color')];
 
+let isDrawing = false;
 
-
-let currentColor = 'white';
+let currentColor = '';
 
 colors.forEach(color => {
     color.addEventListener("click", ev => {
-        if (currentColor === 'white') {
+        if (currentColor === '') {
             ev.target.classList.toggle('selected')
             currentColor = ev.target.getAttribute('id');
         }
@@ -52,8 +52,19 @@ const generateHTMLGrid = (arr)=> {
             cell.addEventListener('click', ev => {
                 cell.style.backgroundColor = currentColor;
             })
+            cell.addEventListener('mousemove', ev => {
+                if (isDrawing === true) {
+                    cell.style.backgroundColor = currentColor;
+                }
+            })
         })
         canvas.appendChild(rowDiv);
+        canvas.addEventListener('mousedown', ev => {
+            isDrawing = true;
+        })
+        canvas.addEventListener('mouseup', ev => {
+            isDrawing = false;
+        })
     })
 
 };
@@ -82,6 +93,12 @@ addRowButton.addEventListener('click', ev => {
         cell.addEventListener('click', ev => {
             cell.style.backgroundColor = currentColor;
         })
+        cell.addEventListener('mousemove', ev => {
+            if (isDrawing === true) {
+                cell.style.backgroundColor = currentColor;
+            }
+        })
+        
     }
     canvas.appendChild(rowDiv);
     rows = [...document.querySelectorAll('.row')]
@@ -102,6 +119,11 @@ addColButton.addEventListener('click', ev => {
         row.appendChild(cell);
         cell.addEventListener('click', ev => {
             cell.style.backgroundColor = currentColor;
+        })
+        cell.addEventListener('mousemove', ev => {
+            if (isDrawing === true) {
+                cell.style.backgroundColor = currentColor;
+            }
         })
     })
     countCol++
