@@ -1,10 +1,14 @@
 const generateNxN = (n)=> {
+    const elements = 'red blue green yellow aqua'.split(' ');
     const arr =[];
+    let position = 0;
     for (let i = 0; i < n; i++) {
         const innerArr = [];
         for (let j = 0; j < n; j++) {
-            const el = ''
+            const el = elements[position];
             innerArr.push(el);
+            elements.shift();
+            elements.push(el);
         }
         arr.push(innerArr)
     }
@@ -12,9 +16,11 @@ const generateNxN = (n)=> {
 };
 
 const originalGrid = generateNxN(5);
+
 const colors = [...document.querySelectorAll('.color')];
-const canvas = document.querySelector('.grid');
+
 let isDrawing = false;
+
 let currentColor = '';
 
 colors.forEach(color => {
@@ -32,7 +38,10 @@ colors.forEach(color => {
     })
 })
 
+
+
 const generateHTMLGrid = (arr)=> { 
+    const canvas = document.querySelector('.grid');
     arr.forEach(row => {
         const rowDiv = document.createElement('div');
         rowDiv.classList.add('row')
@@ -73,6 +82,7 @@ generateHTMLGrid(originalGrid);
 let rows = [...document.querySelectorAll('.row')]
 
 addRowButton.addEventListener('click', ev => {
+    const canvas = document.querySelector('.grid');
     const rowDiv = document.createElement('div');
     rowDiv.classList.add('row');
     countRows++;
@@ -96,6 +106,7 @@ addRowButton.addEventListener('click', ev => {
 
 removeRowButton.addEventListener('click', ev => {
     countRows--;
+    const canvas = document.querySelector('.grid');
     const lastRow = document.querySelector('.row:last-child');
     canvas.removeChild(lastRow);
     rows = [...document.querySelectorAll('.row')]
